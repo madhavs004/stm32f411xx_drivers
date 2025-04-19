@@ -10,6 +10,31 @@
 
 #include<stdint.h>
 #define __vo						volatile
+
+/****************************PROCESSOR SPECIFIC DETAILS*************************
+ *
+ * ARM Cortex MX Processors NVIC ISERx Register Addresses
+ */
+#define NVIC_ISER0					((__vo uint32_t*)0xE000E100)
+#define NVIC_ISER1					((__vo uint32_t*)0xE000E104)
+#define NVIC_ISER2					((__vo uint32_t*)0xE000E108)
+#define NVIC_ISER3					((__vo uint32_t*)0xE000E10c)
+
+/*
+ * ARM Cortex MX Processor NVIC ICERx register addresses
+ */
+#define NVIC_ICER0					((__vo uint32_t*)0xE000E180)
+#define NVIC_ICER1					((__vo uint32_t*)0xE000E180)
+#define NVIC_ICER2					((__vo uint32_t*)0xE000E180)
+#define NVIC_ICER3					((__vo uint32_t*)0xE000E180)
+
+/*
+ * ARM Cortex Mx Processor Priority Register Address Calculation
+ */
+#define NVIC_PR_BASE_ADDRESS		((__vo uint32_t*)0xE000E400)
+
+#define NO_PR_BITS_IMPLEMENTED		4
+
 //Flash and SRAM memories base addresses
 
 #define FLASH_BASE_ADDRESS           0x08000000U
@@ -105,6 +130,23 @@ typedef struct{
 
 }RCC_RegDef_t;
 
+//peripheral register Definition structure for EXTI
+typedef struct{
+	__vo uint32_t IMR;
+	__vo uint32_t EMR;
+	__vo uint32_t RTSR;
+	__vo uint32_t FTSR;
+	__vo uint32_t SWIER;
+	__vo uint32_t PR;
+}EXTI_RegDef_t;
+
+typedef struct{
+	__vo uint32_t MEMRMP;
+	__vo uint32_t PMC;
+	__vo uint32_t EXTICR[4];
+    uint32_t RESERVED1[2];
+	__vo uint32_t CMPCR;
+}SYSCFG_RegDef_t;
 
 //peripheral definitions( Peripheral base addresses typecasted to GPIO_RegDef_t structure type
 
@@ -115,6 +157,8 @@ typedef struct{
 #define GPIOE						((GPIO_RegDef_t*) GPIOE_BASE_ADDRESS)
 #define GPIOH						((GPIO_RegDef_t*) GPIOH_BASE_ADDRESS)
 #define RCC							((RCC_RegDef_t*) RCC_BASE_ADDRESS)
+#define EXTI						((EXTI_RegDef_t*) EXTI_BASE_ADDRESS)
+#define SYSCFG						((SYSCFG_RegDef_t*) SYSCFG_BASE_ADDRESS)
 
 //Clock enable macros for GPIOx peripherals
 #define GPIOA_PERI_CLOCK_EN()	(RCC->AHB1ENR |=(1<<0))
@@ -176,12 +220,48 @@ typedef struct{
 #define SYSCFG_CLOCK_DI()			(RCC->APB2ENR &= ~(1<<14))
 
 //Macros to reset GPIOx peripherals
-#define GPIOA_REG_RESET()
-#define GPIOB_REG_RESET()
-#define GPIOC_REG_RESET()
-#define GPIOD_REG_RESET()
-#define GPIOE_REG_RESET()
-#define GPIOH_REG_RESET()
+#define GPIOA_REG_RESET()			do{(RCC->AHB1RSTR |= (1<<0)); (RCC->AHB1RSTR &= ~(1<<0));} while(0)
+#define GPIOB_REG_RESET()			do{(RCC->AHB1RSTR |= (1<<1)); (RCC->AHB1RSTR &= ~(1<<1));} while(0)
+#define GPIOC_REG_RESET()			do{(RCC->AHB1RSTR |= (1<<2)); (RCC->AHB1RSTR &= ~(1<<2));} while(0)
+#define GPIOD_REG_RESET()			do{(RCC->AHB1RSTR |= (1<<3)); (RCC->AHB1RSTR &= ~(1<<3));} while(0)
+#define GPIOE_REG_RESET()			do{(RCC->AHB1RSTR |= (1<<4)); (RCC->AHB1RSTR &= ~(1<<4));} while(0)
+#define GPIOH_REG_RESET()			do{(RCC->AHB1RSTR |= (1<<7)); (RCC->AHB1RSTR &= ~(1<<7));} while(0)
+
+#define GPIO_BASEADDRESS_TO_CODE(x)	((x==GPIOA) ? 0 :\
+									(x==GPIOB) ? 1 :\
+									(x==GPIOC) ? 2 :\
+									(x==GPIOD) ? 3 :\
+									(x==GPIOE) ? 4 :\
+									(x==GPIOH) ? 7 :0)
+
+/* IRQ( Interrupt Request) numbers of STM32F411CEU6f MCU
+ */
+#define IRQ_NO_EXTI0				6
+#define IRQ_NO_EXTI1				7
+#define IRQ_NO_EXTI2				8
+#define IRQ_NO_EXTI3				9
+#define IRQ_NO_EXTI4				10
+#define IRQ_NO_EXTI9_5				23
+#define IRQ_NO_EXTI15_10			40
+
+// IRQ Priority Macros :
+
+#define NVIC_IRQ_PRI0				0
+#define NVIC_IRQ_PRI1				1
+#define NVIC_IRQ_PRI2				2
+#define NVIC_IRQ_PRI3				3
+#define NVIC_IRQ_PRI4				4
+#define NVIC_IRQ_PRI5				5
+#define NVIC_IRQ_PRI6				6
+#define NVIC_IRQ_PRI7				7
+#define NVIC_IRQ_PRI8				8
+#define NVIC_IRQ_PRI9				9
+#define NVIC_IRQ_PRI10				10
+#define NVIC_IRQ_PRI11				11
+#define NVIC_IRQ_PRI12				12
+#define NVIC_IRQ_PRI13				13
+#define NVIC_IRQ_PRI14				14
+#define NVIC_IRQ_PRI15				15
 
 
 //Some Generic Macros :
@@ -192,5 +272,6 @@ typedef struct{
 #define GPIO_PIN_SET				SET
 #define GPIO_PIN_RESET				RESET
 
+#include "stm32f411ceu6_gpio_driver.h"
 
 #endif /* INC_STM32F411CEU6_H_ */
