@@ -1,0 +1,6 @@
+"./Src/008_spi_cmd_handling.o"
+"./Src/syscalls.o"
+"./Src/sysmem.o"
+"./Startup/startup_stm32f411ceux.o"
+"./drivers/src/stm32f411ceu6_gpio_driver.o"
+"./drivers/src/stm32f411ceu6_spi_driver.o"

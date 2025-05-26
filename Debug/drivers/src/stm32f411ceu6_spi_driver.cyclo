@@ -1,0 +1,9 @@
+../drivers/src/stm32f411ceu6_spi_driver.c:11:6:SPI_PeriClockControl	12
+../drivers/src/stm32f411ceu6_spi_driver.c:48:6:SPI_PeripheralControl	2
+../drivers/src/stm32f411ceu6_spi_driver.c:56:6:SPI_SSIConfig	2
+../drivers/src/stm32f411ceu6_spi_driver.c:64:6:SPI_SSOE_Config	2
+../drivers/src/stm32f411ceu6_spi_driver.c:75:6:SPI_Init	4
+../drivers/src/stm32f411ceu6_spi_driver.c:117:6:SPI_DeInit	6
+../drivers/src/stm32f411ceu6_spi_driver.c:137:9:SPI_GetFlagSTatus	2
+../drivers/src/stm32f411ceu6_spi_driver.c:148:6:SPI_SendData	4
+../drivers/src/stm32f411ceu6_spi_driver.c:170:6:SPI_RecieveData	4
