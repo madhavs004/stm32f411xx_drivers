@@ -95,6 +95,11 @@ typedef struct{
 #define SPI_RXNE_FLAG				(1 << 0)
 #define SPI_BUSY_FLAG				(1 << 7)
 
+//possible SPI application events
+#define SPI_EVENT_TX_CMPLT  1
+#define SPI_EVENT_RX_CMPLT  2
+#define SPI_EVENT_OVR_CMPLT 3
+
 
 /****************************************************************************
  * 				APIs Supported by this driver
@@ -126,7 +131,11 @@ void SPI_PeripheralControl(SPI_RegDef_t *pSPIx, uint8_t EnOrDi);
 void SPI_SSIConfig(SPI_RegDef_t *pSPIx, uint8_t EnOrDi);
 void SPI_SSOE_Config(SPI_RegDef_t *pSPIx, uint8_t EnOrDi);
 uint8_t SPI_GetFlagSTatus(SPI_RegDef_t *pSPIx, uint32_t FlagName);
+void SPI_ClearOVRFlag(SPI_RegDef_t *pSPIx);
+void SPI_CloseTransmission(SPI_Handle_t *pSPIHandle);
+void SPI_CloseReception(SPI_Handle_t *pSPIHandle);
 
+void SPI_Application_event_callback(SPI_Handle_t *pSPIHandle, uint8_t AppEvent);
 
 
 
