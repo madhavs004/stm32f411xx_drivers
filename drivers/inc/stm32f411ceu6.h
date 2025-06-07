@@ -290,6 +290,12 @@ typedef struct{
 #define SPI4_REG_RESET()    		do { RCC->APB2RSTR |= (1 << 13); RCC->APB2RSTR &= ~(1 << 13); } while(0)
 #define SPI5_REG_RESET()    		do { RCC->APB2RSTR |= (1 << 20); RCC->APB2RSTR &= ~(1 << 20); } while(0)
 
+// Macros to reset I2Cx peripherals
+#define I2C1_REG_RESET()    		do { RCC->APB1RSTR |= (1 << 21); RCC->APB1RSTR &= ~(1 << 21); } while(0)
+#define I2C2_REG_RESET()    		do { RCC->APB1RSTR |= (1 << 22); RCC->APB1RSTR &= ~(1 << 22); } while(0)
+#define I2C3_REG_RESET()    		do { RCC->APB1RSTR |= (1 << 23); RCC->APB1RSTR &= ~(1 << 23); } while(0)
+
+
 /******************************************************************************************
  *Bit position definitions of SPI peripheral
  ******************************************************************************************/
@@ -413,6 +419,12 @@ typedef struct{
 #define IRQ_NO_SPI3       		    51
 #define IRQ_NO_SPI4       		    84
 #define IRQ_NO_SPI5       		    85
+#define IRQ_NO_I2C1_EV  		    31
+#define IRQ_NO_I2C1_ER 			    32
+#define IRQ_NO_I2C2_EV    		    33
+#define IRQ_NO_I2C2_ER     			34
+#define IRQ_NO_I2C3_EV     			72
+#define IRQ_NO_I2C3_ER     			73
 
 // IRQ Priority Macros :
 
